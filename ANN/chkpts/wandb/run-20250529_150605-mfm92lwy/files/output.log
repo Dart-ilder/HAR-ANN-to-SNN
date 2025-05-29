@@ -1,0 +1,71 @@
+/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:654: Checkpoint directory /workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/chkpts exists and is not empty.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+  | Name      | Type             | Params | Mode
+-------------------------------------------------------
+0 | conv      | Conv2d           | 168    | train
+1 | attention | SelfAttention    | 5.1 K  | train
+2 | fc        | Sequential       | 50.8 K | train
+3 | criterion | CrossEntropyLoss | 0      | train
+-------------------------------------------------------
+56.1 K    Trainable params
+0         Non-trainable params
+56.1 K    Total params
+0.224     Total estimated model params size (MB)
+7         Modules in train mode
+0         Modules in eval mode
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 5: 100%|████████████████████████████████| 69/69 [00:05<00:00, 11.81it/s, v_num=2lwy, train_loss=0.695, val_loss=0.703, val_acc=0.782]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 10: 100%|███████████████████████████████| 69/69 [00:05<00:00, 12.59it/s, v_num=2lwy, train_loss=0.405, val_loss=0.486, val_acc=0.857]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 19: 100%|███████████████████████████████| 69/69 [00:05<00:00, 12.20it/s, v_num=2lwy, train_loss=0.284, val_loss=0.306, val_acc=0.897]
+
+Epoch 19: 100%|███████████████████████████████| 69/69 [00:10<00:00,  6.67it/s, v_num=2lwy, train_loss=0.284, val_loss=0.307, val_acc=0.894]

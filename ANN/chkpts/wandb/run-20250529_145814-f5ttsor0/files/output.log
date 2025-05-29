@@ -1,0 +1,68 @@
+/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:654: Checkpoint directory /workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/chkpts exists and is not empty.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+  | Name      | Type             | Params | Mode
+-------------------------------------------------------
+0 | conv      | Conv2d           | 168    | train
+1 | attention | SelfAttention    | 5.1 K  | train
+2 | fc        | Sequential       | 50.8 K | train
+3 | criterion | CrossEntropyLoss | 0      | train
+-------------------------------------------------------
+56.1 K    Trainable params
+0         Non-trainable params
+56.1 K    Total params
+0.224     Total estimated model params size (MB)
+7         Modules in train mode
+0         Modules in eval mode
+
+Sanity Checking: |                                                                                                   | 0/? [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 14: 100%|███████████████████████████████| 68/68 [00:05<00:00, 12.34it/s, v_num=sor0, train_loss=0.386, val_loss=0.425, val_acc=0.835]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 19: 100%|███████████████████████████████| 68/68 [00:10<00:00,  6.65it/s, v_num=sor0, train_loss=0.326, val_loss=0.383, val_acc=0.837]
+`Trainer.fit` stopped: `max_epochs=20` reached.
