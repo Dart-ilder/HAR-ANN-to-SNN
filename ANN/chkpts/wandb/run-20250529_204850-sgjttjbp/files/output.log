@@ -1,0 +1,172 @@
+/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:654: Checkpoint directory /workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/chkpts exists and is not empty.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+  | Name      | Type             | Params | Mode
+-------------------------------------------------------
+0 | conv      | Conv2d           | 168    | train
+1 | temp_conv | Sequential       | 24.0 K | train
+2 | fc        | Sequential       | 1.0 M  | train
+3 | criterion | CrossEntropyLoss | 0      | train
+-------------------------------------------------------
+1.0 M     Trainable params
+0         Non-trainable params
+1.0 M     Total params
+4.199     Total estimated model params size (MB)
+13        Modules in train mode
+0         Modules in eval mode
+
+Sanity Checking: |                                                                                                   | 0/? [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 6: 100%|████████████████████████████████| 68/68 [00:06<00:00, 11.33it/s, v_num=tjbp, train_loss=0.256, val_loss=0.620, val_acc=0.799]
+
+
+
+
+
+
+
+
+
+
+Epoch 10: 100%|███████████████████████████████| 68/68 [00:06<00:00, 11.30it/s, v_num=tjbp, train_loss=0.187, val_loss=0.657, val_acc=0.809]
+
+
+
+
+
+
+
+
+
+
+
+Epoch 14: 100%|███████████████████████████████| 68/68 [00:05<00:00, 11.50it/s, v_num=tjbp, train_loss=0.124, val_loss=0.711, val_acc=0.823]
+
+
+
+
+
+
+
+
+Epoch 18:   0%|                                        | 0/68 [00:00<?, ?it/s, v_num=tjbp, train_loss=0.157, val_loss=0.965, val_acc=0.789]
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x7f672e1094c0>
+Traceback (most recent call last):
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1604, in __del__
+    self._shutdown_workers()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1568, in _shutdown_workers
+    w.join(timeout=_utils.MP_STATUS_CHECK_INTERVAL)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/multiprocessing/popen_fork.py", line 40, in wait
+    if not wait([self.sentinel], timeout):
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt:
+Traceback (most recent call last):
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1243, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/multiprocessing/queues.py", line 114, in get
+    raise Empty
+_queue.Empty
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/train.py", line 102, in <module>
+    trainer.fit(model, tr_loader, val_loader)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 48, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 216, in run
+    self.advance()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 455, in advance
+    self.epoch_loop.run(self._data_fetcher)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 150, in run
+    self.advance(data_fetcher)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 282, in advance
+    batch, _, __ = next(data_fetcher)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 134, in __next__
+    batch = super().__next__()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 61, in __next__
+    batch = next(self.iterator)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 341, in __next__
+    out = next(self._iterator)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 78, in __next__
+    out[i] = next(self.iterators[i])
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1448, in _next_data
+    idx, data = self._get_data()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1412, in _get_data
+    success, data = self._try_get_data()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1256, in _try_get_data
+    raise RuntimeError(
+RuntimeError: DataLoader worker (pid(s) 4053940, 4054003, 4054066, 4054129, 4054193, 4054262, 4054263, 4054326, 4054451, 4054514, 4054577, 4054640, 4054703, 4054766, 4054829, 4054830, 4054831, 4055018, 4055081, 4055144, 4055207, 4055270, 4055333, 4055396) exited unexpectedly
+Traceback (most recent call last):
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1243, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/multiprocessing/queues.py", line 114, in get
+    raise Empty
+_queue.Empty
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/train.py", line 102, in <module>
+    trainer.fit(model, tr_loader, val_loader)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 48, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 216, in run
+    self.advance()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 455, in advance
+    self.epoch_loop.run(self._data_fetcher)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 150, in run
+    self.advance(data_fetcher)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 282, in advance
+    batch, _, __ = next(data_fetcher)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 134, in __next__
+    batch = super().__next__()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 61, in __next__
+    batch = next(self.iterator)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 341, in __next__
+    out = next(self._iterator)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 78, in __next__
+    out[i] = next(self.iterators[i])
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1448, in _next_data
+    idx, data = self._get_data()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1412, in _get_data
+    success, data = self._try_get_data()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1256, in _try_get_data
+    raise RuntimeError(
+RuntimeError: DataLoader worker (pid(s) 4053940, 4054003, 4054066, 4054129, 4054193, 4054262, 4054263, 4054326, 4054451, 4054514, 4054577, 4054640, 4054703, 4054766, 4054829, 4054830, 4054831, 4055018, 4055081, 4055144, 4055207, 4055270, 4055333, 4055396) exited unexpectedly

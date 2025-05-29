@@ -7,15 +7,15 @@ data:
     - USCHAD.npz
 
 model:
-  cnn_filters: 24
+  cnn_filters: 64
   attention_size: 128
   attention_num_hops: 16
 
 
 training:
-  epochs: 20
+  epochs: 12
   batch_size: 128
-  learning_rate: 0.0001
+  learning_rate: 0.00005
   early_stopping_patience: 20
   accelerator: auto
   devices: 1
