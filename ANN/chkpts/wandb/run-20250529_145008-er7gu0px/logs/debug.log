@@ -1,0 +1,41 @@
+2025-05-29 14:50:08,937 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Current SDK version is 0.16.6
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Configure stats pid to 2563116
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Loading settings from /root/.config/wandb/settings
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Loading settings from /workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/wandb/settings
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'ANN/train.py', 'program_abspath': '/workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/train.py', 'program': '/workspace/ann_to_snn/HAR-ANN-to-SNN/ANN/train.py'}
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_setup.py:_flush():76] Applying login settings: {}
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_init.py:_log_setup():521] Logging user logs to ./chkpts/wandb/run-20250529_145008-er7gu0px/logs/debug.log
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_init.py:_log_setup():522] Logging internal logs to ./chkpts/wandb/run-20250529_145008-er7gu0px/logs/debug-internal.log
+2025-05-29 14:50:08,939 INFO    MainThread:2563116 [wandb_init.py:init():561] calling init triggers
+2025-05-29 14:50:08,940 INFO    MainThread:2563116 [wandb_init.py:init():568] wandb.init called with sweep_config: {}
+config: {}
+2025-05-29 14:50:08,940 INFO    MainThread:2563116 [wandb_init.py:init():611] starting backend
+2025-05-29 14:50:08,940 INFO    MainThread:2563116 [wandb_init.py:init():615] setting up manager
+2025-05-29 14:50:08,949 INFO    MainThread:2563116 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2025-05-29 14:50:08,950 INFO    MainThread:2563116 [wandb_init.py:init():623] backend started and connected
+2025-05-29 14:50:08,956 INFO    MainThread:2563116 [wandb_init.py:init():715] updated telemetry
+2025-05-29 14:50:09,059 INFO    MainThread:2563116 [wandb_init.py:init():748] communicating run to backend with 90.0 second timeout
+2025-05-29 14:50:10,161 INFO    MainThread:2563116 [wandb_run.py:_on_init():2357] communicating current version
+2025-05-29 14:50:10,402 INFO    MainThread:2563116 [wandb_run.py:_on_init():2366] got version response upgrade_message: "wandb version 0.19.11 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2025-05-29 14:50:10,403 INFO    MainThread:2563116 [wandb_init.py:init():799] starting run threads in backend
+2025-05-29 14:50:14,794 WARNING MainThread:2563116 [wandb_init.py:init():1203] interrupted
+Traceback (most recent call last):
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/wandb/sdk/wandb_init.py", line 1181, in init
+    run = wi.init()
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/wandb/sdk/wandb_init.py", line 812, in init
+    run_start_result = run_start_handle.wait(timeout=30)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/wandb/sdk/lib/mailbox.py", line 283, in wait
+    found, abandoned = self._slot._get_and_clear(timeout=wait_timeout)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/wandb/sdk/lib/mailbox.py", line 130, in _get_and_clear
+    if self._wait(timeout=timeout):
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/site-packages/wandb/sdk/lib/mailbox.py", line 126, in _wait
+    return self._event.wait(timeout=timeout)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/threading.py", line 581, in wait
+    signaled = self._cond.wait(timeout)
+  File "/workspace/mnt/local/data/pgurevich/miniconda3/envs/constitution/lib/python3.9/threading.py", line 316, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt
+2025-05-29 14:50:20,863 WARNING MsgRouterThr:2563116 [router.py:message_loop():77] message_loop has been closed
