@@ -59,13 +59,12 @@ class ConvAttention(pl.LightningModule):
         super().__init__()
        
         self.save_hyperparameters()
-        self.embed_size = size
         # CNN to extract features per timestep
         self.conv = nn.Conv2d(1, num_conv_filters, (1, input_shape[1]))
 
         self.attention = SelfAttention(
             hidden_dim=num_conv_filters,
-            size=self.embed_size,
+            size=size,
             num_hops=num_hops,
         )
 
@@ -110,3 +109,70 @@ class ConvAttention(pl.LightningModule):
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)
     
+
+
+class ConvConv(pl.LightningModule):
+    def __init__(
+        self,
+        input_shape,
+        num_labels: int,
+        num_conv_filters: int,
+        size: int,
+        num_hops=10,
+        learning_rate: float = 1e-4,
+    ):
+        super().__init__()
+       
+        self.save_hyperparameters()
+        # CNN to extract features per timestep
+        self.conv = nn.Conv2d(1, num_conv_filters, (1, input_shape[1]))
+        self.temp_conv = nn.Sequential(
+            nn.Conv2d(num_conv_filters, 32, kernel_size=(3, 1), padding=(1, 0), stride=(2, 1)), 
+            nn.Conv2d(32, 32, kernel_size=(3, 1), padding=(1, 0),), 
+            nn.ReLU(),
+            nn.Conv2d(32, 64, kernel_size=(3, 1), padding=(1, 0), stride=(2, 1)), 
+            nn.Conv2d(64, 64, kernel_size=(3, 1), padding=(1, 0)), 
+            nn.ReLU()            
+        )
+
+        self.fc = nn.Sequential(
+            nn.Linear(64*125, 128),
+            nn.ReLU(),
+            nn.Linear(128, num_labels)
+        )
+
+        self.criterion = nn.CrossEntropyLoss()
+
+
+    def forward(self, x):
+        B = x.size(0)
+        # x: (batch, seq_len, feat_dim, 1)
+        x = x.permute(0, 3, 1, 2)                     # (batch,1,seq_len,feat_dim)
+        x = self.conv(x)                              # (batch,filters,seq_len,1)
+        x = self.temp_conv(x)
+        x = nn.Flatten()(x)            
+          
+        return self.fc(x)  
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        logits = self(x)
+        preds = torch.argmax(logits, dim=1)
+        loss = self.criterion(logits, y)
+        self.log('train_loss', loss, prog_bar=True)
+        self.log('train_acc', accuracy_score(y.cpu(), preds.cpu()), prog_bar=True)
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        x, y = batch
+        logits = self(x)
+        preds = torch.argmax(logits, dim=1)
+        loss = self.criterion(logits, y)
+        self.log('val_loss', loss, prog_bar=True)
+        self.log('val_acc', accuracy_score(y.cpu(), preds.cpu()), prog_bar=True)
+        self.log('val_recall', recall_score(y.cpu(), preds.cpu(), average='macro', zero_division=0))
+        self.log('val_f1', f1_score(y.cpu(), preds.cpu(), average='macro', zero_division=0))
+        return {'preds': preds.cpu(), 'targets': y.cpu()}
+
+    def configure_optimizers(self):
+        return torch.optim.Adam(self.parameters(), lr=self.hparams.learning_rate)

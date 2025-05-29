@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 from pytorch_lightning.loggers import WandbLogger
 from sklearn.metrics import accuracy_score, recall_score, f1_score, mean_absolute_error
-from models import ConvAttention
+from models import ConvAttention, ConvConv
 
 def seed_everything(seed):
     random.seed(seed)
@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
             wandb_logger = WandbLogger(
                 project=cfg['wandb']['project'],
-                name=f'{MODE}_run_fold_{i}',
+                name=f'CC_{MODE}_run_fold_{i}',
                 save_dir=SAVE_DIR,
                 log_model=True
             )
@@ -79,12 +79,12 @@ if __name__ == '__main__':
             tr_loader=prepare_loader(Xt, yt, BATCH_SIZE, shuffle=True)
             val_loader=prepare_loader(Xv, yv, BATCH_SIZE)
 
-            model=ConvAttention(
+            model=ConvConv(
                 input_shape=Xt.shape[1:], num_labels=num_labels, size=ATT_SIZE,
                 num_conv_filters=CNN_FILTERS, num_hops=ATT_HOPS,
                 learning_rate=LEARNING_RATE
             )
-            checkpoint_cb = ModelCheckpoint(dirpath=SAVE_DIR, filename=f'{MODE}_fold_{i}_final',
+            checkpoint_cb = ModelCheckpoint(dirpath=SAVE_DIR, filename=f'{MODE}_fold_{i}_CC',
                                             save_top_k=1, monitor='val_acc', mode='max')
             
             es_cb = EarlyStopping(monitor='val_acc', patience=PATIENCE, mode='max')
@@ -102,7 +102,7 @@ if __name__ == '__main__':
             trainer.fit(model, tr_loader, val_loader)
             
 
-            best=ConvAttention.load_from_checkpoint(checkpoint_cb.best_model_path).cuda()
+            best=ConvConv.load_from_checkpoint(checkpoint_cb.best_model_path).cuda()
             best.eval()
             preds, targs = [], []
             for xbatch,ybatch in val_loader:
