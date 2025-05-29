@@ -1,0 +1,29 @@
+seed: 0
+
+data:
+  mode: LOTO
+  base_dir: ./data/LOTO/
+  files:
+    - USCHAD.npz
+
+model:
+  cnn_filters: 24
+  attention_size: 128
+  attention_num_hops: 16
+
+
+training:
+  epochs: 20
+  batch_size: 128
+  learning_rate: 0.0001
+  early_stopping_patience: 20
+  accelerator: auto
+  devices: 1
+
+wandb:
+  project: ConvAttention
+
+
+output:
+  base_dir: '/workspace/mnt/local/data/pgurevich/ann_to_snn'
+  save_dir: './chkpts'
