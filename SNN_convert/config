@@ -1,0 +1,12 @@
+[paths]
+path_wd = .
+dataset_path = ./data
+filename_ann = model
+
+[input]
+model_lib = keras
+dataset_format = npz
+
+[tools]
+evaluate_ann = False
+
