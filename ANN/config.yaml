@@ -2,7 +2,6 @@ seed: 0
 
 data:
   mode: LOTO
-  base_dir: ./data/LOTO/
   files:
     - USCHAD.npz
 

@@ -117,8 +117,6 @@ class ConvConv(pl.LightningModule):
         input_shape,
         num_labels: int,
         num_conv_filters: int,
-        size: int,
-        num_hops=10,
         learning_rate: float = 1e-4,
     ):
         super().__init__()
@@ -141,13 +139,11 @@ class ConvConv(pl.LightningModule):
             nn.Linear(128, num_labels)
         )
 
-        self.criterion = nn.CrossEntropyLoss()
+        self.loss = nn.CrossEntropyLoss()
 
 
     def forward(self, x):
-        B = x.size(0)
         # x: (batch, seq_len, feat_dim, 1)
-        x = x.permute(0, 3, 1, 2)                     # (batch,1,seq_len,feat_dim)
         x = self.conv(x)                              # (batch,filters,seq_len,1)
         x = self.temp_conv(x)
         x = nn.Flatten()(x)            
@@ -158,7 +154,7 @@ class ConvConv(pl.LightningModule):
         x, y = batch
         logits = self(x)
         preds = torch.argmax(logits, dim=1)
-        loss = self.criterion(logits, y)
+        loss = self.loss(logits, y)
         self.log('train_loss', loss, prog_bar=True)
         self.log('train_acc', accuracy_score(y.cpu(), preds.cpu()), prog_bar=True)
         return loss
@@ -167,7 +163,7 @@ class ConvConv(pl.LightningModule):
         x, y = batch
         logits = self(x)
         preds = torch.argmax(logits, dim=1)
-        loss = self.criterion(logits, y)
+        loss = self.loss(logits, y)
         self.log('val_loss', loss, prog_bar=True)
         self.log('val_acc', accuracy_score(y.cpu(), preds.cpu()), prog_bar=True)
         self.log('val_recall', recall_score(y.cpu(), preds.cpu(), average='macro', zero_division=0))

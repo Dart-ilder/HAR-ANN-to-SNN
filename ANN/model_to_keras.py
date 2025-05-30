@@ -17,6 +17,7 @@ def sanitize_onnx_model(model):
 
     # Rename graph inputs and outputs
     for tensor in model.graph.input:
+        print(tensor.name)
         tensor.name = clean_name(tensor.name)
     for tensor in model.graph.output:
         tensor.name = clean_name(tensor.name)
@@ -37,8 +38,8 @@ i = 8
 
 model = ConvConv.load_from_checkpoint(f"./chkpts/{MODE}_fold_{i}_{TYPE}.ckpt")
 
-dummy_input = torch.randn(1, 500, 6, 1)  # Adjust dimensions as needed
-torch.onnx.export(model, dummy_input, "model.onnx", opset_version=11,    input_names=['input'], output_names=['output'])
+dummy_input = torch.randn(1, 1, 500, 6)  # Adjust dimensions as needed
+torch.onnx.export(model, dummy_input, "model.onnx", opset_version=11)
 onnx_model = onnx.load('model.onnx')
 
 onnx_model = sanitize_onnx_model(onnx_model)
@@ -47,7 +48,7 @@ onnx_model = sanitize_onnx_model(onnx_model)
 onnx.save(onnx_model, "model_clean.onnx")
 
 
-k_model = onnx_to_keras(onnx_model, ['input'])  # Replace 'input_0' with your input node name
-tf.keras.models.save_model(k_model, 'model.h5')
+k_model = onnx_to_keras(onnx_model, ['input.1'], change_ordering=True)  # Replace 'input_0' with your input node name
+tf.keras.models.save_model(k_model, '../SNN_convert/model.h5')
 
 print("Finish")

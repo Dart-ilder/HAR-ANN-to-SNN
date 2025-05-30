@@ -1,0 +1,2 @@
+# samples | SNN top-1 | top-1 | ANN top-1 | top-1
+500 12.00% 4.80% 2.60% 2.60%
