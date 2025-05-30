@@ -2,7 +2,7 @@ seed: 0
 
 data:
   mode: LOTO
-  base_dir: ./data/LOTO/
+  base_dir: ./data/
   files:
     - USCHAD.npz
 
@@ -25,5 +25,5 @@ wandb:
 
 
 output:
-  base_dir: '/workspace/mnt/local/data/pgurevich/ann_to_snn'
+  base_dir: '.'
   save_dir: './chkpts'

@@ -8,7 +8,7 @@ import torch
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader, TensorDataset
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
-from pytorch_lightning.loggers import WandbLogger
+# from pytorch_lightning.loggers import WandbLogger
 from sklearn.metrics import accuracy_score, recall_score, f1_score, mean_absolute_error
 from models import ConvAttention, ConvConv
 
@@ -64,12 +64,12 @@ if __name__ == '__main__':
         accs, recs, f1s = [], [], []
         for i,(tr,te) in enumerate(folds):
 
-            wandb_logger = WandbLogger(
-                project=cfg['wandb']['project'],
-                name=f'CC_{MODE}_run_fold_{i}',
-                save_dir=SAVE_DIR,
-                log_model=True
-            )
+            # wandb_logger = WandbLogger(
+            #     project=cfg['wandb']['project'],
+            #     name=f'CC_{MODE}_run_fold_{i}',
+            #     save_dir=SAVE_DIR,
+            #     log_model=True
+            # )
 
             Xt, yt = X[tr], y[tr]; Xv, yv = X[te], y[te]
             def trim(a): return a[:len(a)//BATCH_SIZE*BATCH_SIZE]
@@ -94,7 +94,7 @@ if __name__ == '__main__':
                 accelerator=cfg['training']['accelerator'],
                 devices=cfg['training']['devices'],
                 callbacks=[checkpoint_cb, es_cb],
-                logger=wandb_logger,
+                # logger=wandb_logger,
                 default_root_dir=SAVE_DIR,
                 deterministic=True
             )
@@ -111,7 +111,7 @@ if __name__ == '__main__':
                 targs.append(ybatch.numpy())
             preds=np.concatenate(preds); targs=np.concatenate(targs)
 
-            wandb_logger.experiment.finish()
+            # wandb_logger.experiment.finish()
 
             a=accuracy_score(targs,preds); r=recall_score(targs,preds,average='macro'); f1s_co=f1_score(targs,preds,average='macro'); mae=mean_absolute_error(targs,preds)
             accs.append(a); recs.append(r); f1s.append(f1s_co)
