@@ -1,0 +1,9 @@
+input_shape: !!python/tuple
+- 500
+- 6
+- 1
+learning_rate: 5.0e-05
+num_conv_filters: 64
+num_hops: 16
+num_labels: 12
+size: 128

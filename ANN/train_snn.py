@@ -11,13 +11,11 @@ from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 # from pytorch_lightning.loggers import WandbLogger
 from sklearn.metrics import accuracy_score, recall_score, f1_score, mean_absolute_error
 from models import ConvConv, SpikingConvConv, collect_max_act
-import snntorch.functional as SF               # spike encoder dependency
 
 def seed_everything(seed):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-
     
 def prepare_loader(X, y, batch_size, shuffle=False):
     # convert to float32/long tensors
@@ -30,7 +28,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, default='./config.yaml')
     args = parser.parse_args()
-
+    torch.set_float32_matmul_precision('high')
     with open(args.config, 'r') as f:
         cfg = yaml.safe_load(f)
     # Reproducibility
@@ -41,7 +39,7 @@ if __name__ == '__main__':
     EPOCHS = cfg['training']['epochs']
     BATCH_SIZE = cfg['training']['batch_size']
     CNN_FILTERS = cfg['model']['cnn_filters']
-    # Self-attention params from layers.py
+
     ATT_HOPS = cfg['model']['attention_num_hops']
     ATT_SIZE = cfg['model']['attention_size']
 
@@ -95,29 +93,39 @@ if __name__ == '__main__':
                 accelerator=cfg['training']['accelerator'],
                 devices=cfg['training']['devices'],
                 callbacks=[checkpoint_cb, es_cb],
-                # logger=wandb_logger,
                 default_root_dir=SAVE_DIR,
                 deterministic=True
             )
 
             trainer.fit(model, tr_loader, val_loader)
             
+            # ---------- (A) load best ANN checkpoint ----------
+            best_ann = ConvConv.load_from_checkpoint(checkpoint_cb.best_model_path).cuda()
+            best_ann.eval()
 
-            best=ConvConv.load_from_checkpoint(checkpoint_cb.best_model_path).cuda()
-            best.eval()
-            preds, targs = [], []
-            for xbatch,ybatch in val_loader:
-                out=best(xbatch.cuda())
-                preds.append(torch.argmax(out,1).cpu().numpy())
-                targs.append(ybatch.numpy())
-            preds=np.concatenate(preds); targs=np.concatenate(targs)
+            # ---------- (B) calibrate on a small slice of training data ----------
+            cal_loader = prepare_loader(Xt[:10*BATCH_SIZE], yt[:10*BATCH_SIZE],   # 10 mini-batches
+                                        batch_size=BATCH_SIZE)
+            max_act = collect_max_act(best_ann, cal_loader)                       # ≲ 1 s/GPU
 
-            # wandb_logger.experiment.finish()
+            # we need a dummy entry for the network input range:
+            max_act['input'] = torch.tensor([1.0])                                # inputs are in [0,1]
 
-            a=accuracy_score(targs,preds); r=recall_score(targs,preds,average='macro'); f1s_co=f1_score(targs,preds,average='macro'); mae=mean_absolute_error(targs,preds)
-            accs.append(a); recs.append(r); f1s.append(f1s_co)
-            print(f"Fold {i} -- Acc:{a:.4f}, Recall:{r:.4f}, F1:{f1s_co:.4f}, MAE:{mae:.4f}")
+            # ---------- (C) convert & evaluate ----------
+            spike_net = SpikingConvConv(best_ann, max_act, T=16, Q=1.3).cuda()
+            spike_net.eval()
 
+            preds_spk, targs_spk = [], []
+            with torch.no_grad():
+                for xb, yb in val_loader:
+                    out_spk = spike_net(xb.cuda())
+                    preds_spk.append(torch.argmax(out_spk, 1).cpu().numpy())
+                    targs_spk.append(yb.numpy())
+            preds_spk = np.concatenate(preds_spk); targs_spk = np.concatenate(targs_spk)
+            acc_spk  = accuracy_score(targs_spk, preds_spk)
+            rec_spk  = recall_score(targs_spk, preds_spk, average='macro')
+            f1_spk   = f1_score(targs_spk, preds_spk, average='macro')
+            print(f"[SNN] Fold {i}  Acc:{acc_spk:.4f}  Recall:{rec_spk:.4f}  F1:{f1_spk:.4f}")
            
 
         def ci90(arr): return st.t.interval(0.9, len(arr)-1, loc=np.mean(arr), scale=st.sem(arr))
